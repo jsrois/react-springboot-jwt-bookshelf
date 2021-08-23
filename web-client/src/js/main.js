@@ -7,6 +7,8 @@ import ReactDOM from 'react-dom'
 
 
 ReactDOM.render(
-    <div className="greeting">⚛️ Hello from React! ⚛️</div>,
+    <BrowserRouter>
+        <App/>
+    </BrowserRouter>,
     document.getElementById("app")
 )
