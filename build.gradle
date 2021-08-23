@@ -5,7 +5,7 @@ plugins {
     id "com.github.node-gradle.node" version "3.1.0"
 }
 
-group = 'org.example'
+group = 'net.jsrois'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '16'
 
@@ -19,6 +19,7 @@ dependencies {
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     implementation 'org.hamcrest:hamcrest:2.2'

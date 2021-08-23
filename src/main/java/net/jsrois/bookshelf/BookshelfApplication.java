@@ -1,13 +1,13 @@
-package org.example.exampleapp;
+package net.jsrois.bookshelf;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ExampleApplication {
+public class BookshelfApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ExampleApplication.class, args);
+        SpringApplication.run(BookshelfApplication.class, args);
     }
 
 }
