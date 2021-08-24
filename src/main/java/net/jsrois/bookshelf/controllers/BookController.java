@@ -3,6 +3,7 @@ package net.jsrois.bookshelf.controllers;
 import net.jsrois.bookshelf.models.Book;
 import net.jsrois.bookshelf.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,7 @@ public class BookController {
     }
 
     @PostMapping("/books")
+    @PreAuthorize("hasRole('MODERATOR')")
     public Book addBook(@RequestBody Book book) {
 
         bookRepository.save(book);
