@@ -1,3 +1,21 @@
+body {
+  margin: 0;
+}
+
+.navBar {
+  display: flex;
+  height: 45px;
+  background-color: beige;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: flex-end;
+
+
+  &__link {
+    display: inline-block;
+  }
+}
+
 .bookList{
   display: flex;
   flex-direction: column;

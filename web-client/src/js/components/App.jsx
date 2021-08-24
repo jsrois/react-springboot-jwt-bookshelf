@@ -34,15 +34,17 @@ export const App = () => {
             {showLogin && <LoginForm onSuccess={loginSuccess}/>}
             {showCreateBook && <CreateBookForm onSuccess={creationSuccess}/>}
             <nav className="navBar">
-                {loggedIn || <a onClick={() => setShowLogin(true)}>Login</a>}
-
-                {loggedIn && <a onClick={() => {
-                    setLoggedIn(false)
-                }}>Logout</a>}
-
-                {loggedIn && <a onClick={() => {
+                {loggedIn && <a className="navBar__link" onClick={() => {
                     setShowCreateBook(true)
                 }}>Add Book</a>}
+
+                {loggedIn ? <a className="navBar__link" onClick={() => {
+                        setLoggedIn(false)
+                    }}>Logout</a> :
+                    <a className="navBar__link" onClick={() =>
+                        setShowLogin(true)
+                    }>Login</a>
+                }
             </nav>
             <BookList books={books}/>
         </div>);
