@@ -3,16 +3,7 @@ import {useEffect, useState} from "react";
 import {BookCard} from "./BookCard";
 import {BookApi} from "../api/BookApi";
 
-export const BookList = () => {
-
-    const bookApi = new BookApi()
-
-    const [books, setBooks] = useState([])
-
-    useEffect(() => {
-        bookApi.getBooks().then(setBooks)
-    }, [])
-
+export const BookList = ({books}) => {
 
     return (
         <div className="bookList">

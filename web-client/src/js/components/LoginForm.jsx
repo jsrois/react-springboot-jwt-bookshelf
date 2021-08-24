@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-export const LoginForm = ({onSuccess}) => (<div className="loginForm">
-        <div className="loginFormCard">
+export const LoginForm = ({onSuccess}) => (<div className="formModal">
+        <div className="formModalCard">
             <h1>Login</h1>
             <label htmlFor="username">username</label>
             <input name="username" id="username"/>
