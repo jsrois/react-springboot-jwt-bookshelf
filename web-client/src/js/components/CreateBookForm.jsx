@@ -31,7 +31,7 @@ export const CreateBookForm = ({onSuccess}) => {
                         .catch(() => setError(true))
                 }}>
                 <Form className="formModalCard">
-                    <h1>Login</h1>
+                    <h1>Add book</h1>
                     <label htmlFor="title">title</label>
                     <Field name="title" id="title"/>
                     <label htmlFor="author">author</label>

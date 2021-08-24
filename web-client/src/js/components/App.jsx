@@ -4,7 +4,6 @@ import {useEffect, useState} from "react";
 import {LoginForm} from "./LoginForm";
 import {CreateBookForm} from "./CreateBookForm";
 import {BookApi} from "../api/BookApi";
-import {CredentialsManager} from "../session/CredentialsManager";
 
 export const App = () => {
 
