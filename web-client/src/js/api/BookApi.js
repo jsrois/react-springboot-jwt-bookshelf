@@ -21,4 +21,16 @@ export class BookApi {
         })
 
     }
+
+    deleteBook(id) {
+        const token = new CredentialsManager().getToken()
+
+        return fetch(`/books/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+    }
 }

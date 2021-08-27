@@ -8,9 +8,15 @@ import AddBookFormDialog from "./AddBookFormDialog";
 import {BookTable} from "./BookTable";
 import {fakeBooks} from "../api/fakeData";
 import {BookApi} from "../api/BookApi";
+import {CredentialsManager} from "../session/CredentialsManager";
 
 
 const bookApi = new BookApi()
+const credentialsManager = new CredentialsManager();
+
+function hasToken() {
+    return credentialsManager.getToken() !== null;
+}
 
 export const App = () => {
 
@@ -22,10 +28,9 @@ export const App = () => {
 
     useEffect(updateBooks, [])
 
-
     const [openLoginForm, setOpenLoginForm] = useState(false);
     const [openAddBookForm, setOpenAddBookForm] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false)
+    const [loggedIn, setLoggedIn] = useState(hasToken())
 
     const handleClickOpenLoginForm = () => {
         setOpenLoginForm(true);
@@ -41,6 +46,7 @@ export const App = () => {
     };
 
     const handleClickLogout = () => {
+        credentialsManager.deleteCredentials()
         setLoggedIn(false)
     }
 
@@ -56,7 +62,6 @@ export const App = () => {
         setOpenAddBookForm(false);
         updateBooks();
     };
-
 
     return (<div>
         <NavBar titleText="Bookshelf">
@@ -75,7 +80,10 @@ export const App = () => {
                            handleSuccess={handleAddBookSuccess}/>
 
         <Container maxWidth="md">
-            <BookTable books={books}/>
+            <BookTable
+                books={books}
+                onDeleteSuccess={updateBooks}
+                showButtons={loggedIn}/>
         </Container>
     </div>);
 

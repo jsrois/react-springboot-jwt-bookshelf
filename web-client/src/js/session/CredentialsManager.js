@@ -6,4 +6,8 @@ export class CredentialsManager {
     getToken() {
         return localStorage.getItem("token");
     }
+
+    deleteCredentials() {
+        localStorage.clear()
+    }
 }
