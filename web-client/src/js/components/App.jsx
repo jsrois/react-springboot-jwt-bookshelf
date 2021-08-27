@@ -1,51 +1,26 @@
 import * as React from 'react';
-import {BookList} from "./BookList";
-import {useEffect, useState} from "react";
-import {LoginForm} from "./LoginForm";
-import {CreateBookForm} from "./CreateBookForm";
-import {BookApi} from "../api/BookApi";
+import {NavBar} from "./NavBar";
+import FormDialog from "./FormDialog";
+import Button from "@material-ui/core/Button";
 
 export const App = () => {
 
-    const [showLogin, setShowLogin] = useState(false)
-    const [loggedIn, setLoggedIn] = useState(false)
-    const [showCreateBook, setShowCreateBook] = useState(false)
+    const [open, setOpen] = React.useState(false);
 
-    const [books, setBooks] = useState([])
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-    const bookApi = new BookApi()
+    const handleClose = () => {
+        setOpen(false);
+    };
 
-    useEffect(() => {
-        bookApi.getBooks().then(setBooks)
-    }, [])
+    return (<div>
+        <NavBar titleText="Bookshelf">
+            <Button color="inherit" onClick={handleClickOpen}>Login</Button>
+        </NavBar>
+        <FormDialog open={open} handleClose={handleClose} />
+    </div>);
 
-    const loginSuccess = () => {
-        setLoggedIn(true)
-        setShowLogin(false)
-    }
 
-    const creationSuccess = () => {
-        setShowCreateBook(false)
-        bookApi.getBooks().then(setBooks)
-    }
-
-    return (
-        <div>
-            {showLogin && <LoginForm onSuccess={loginSuccess}/>}
-            {showCreateBook && <CreateBookForm onSuccess={creationSuccess}/>}
-            <nav className="navBar">
-                {loggedIn && <a className="navBar__link" onClick={() => {
-                    setShowCreateBook(true)
-                }}>Add Book</a>}
-
-                {loggedIn ? <a className="navBar__link" onClick={() => {
-                        setLoggedIn(false)
-                    }}>Logout</a> :
-                    <a className="navBar__link" onClick={() =>
-                        setShowLogin(true)
-                    }>Login</a>
-                }
-            </nav>
-            <BookList books={books}/>
-        </div>);
 }
