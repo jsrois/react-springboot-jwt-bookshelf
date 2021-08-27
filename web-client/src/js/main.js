@@ -4,10 +4,10 @@
 import '../scss/main.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {NavBar} from "./components/NavBar";
+import {App} from "./components/App";
 
 
 ReactDOM.render(
-    <NavBar/>,
+    <App/>,
     document.getElementById("app")
 )
