@@ -82,8 +82,25 @@ public class ApplicationTest {
 
         var books = bookRepository.findAll();
 
-        assertThat(books, not(contains(allOf(
-                hasProperty("id", is(1L))
-        ))));
+        assertThat(books, hasSize(0));
+    }
+
+    @Test
+    @WithMockUser(username="user", roles={"MODERATOR"})
+    void editAnExistingBook() throws Exception {
+
+        Book createdBook = bookRepository.save(new Book(1L, "Some book", "some author"));
+
+        mockMvc.perform(put("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"id\":\""+createdBook.getId()+"\",\"title\": \"Moby Dick\", \"author\": \"Herman Melville\"}")
+        ).andExpect(status().is(200));
+
+        var books = bookRepository.findAll();
+
+        assertThat(books, contains(allOf(
+                hasProperty("title", is("Moby Dick")),
+                hasProperty("author", is("Herman Melville"))
+        )));
     }
 }
