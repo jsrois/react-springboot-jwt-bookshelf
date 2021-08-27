@@ -2,12 +2,14 @@ package net.jsrois.bookshelf.repositories;
 
 import net.jsrois.bookshelf.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Component
+@Profile("local")
 public class RoleRepositoryInitializer {
 
     private RoleRepository roleRepository;

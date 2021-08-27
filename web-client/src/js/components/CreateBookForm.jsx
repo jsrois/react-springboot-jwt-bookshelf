@@ -1,7 +1,5 @@
 import * as React from 'react'
 import {useState} from "react";
-import {AuthApi} from "../api/AuthApi";
-import {CredentialsManager} from "../session/CredentialsManager";
 import {Field, Form, Formik} from "formik";
 import {BookApi} from "../api/BookApi";
 
