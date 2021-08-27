@@ -2,11 +2,26 @@ import * as React from 'react';
 import {NavBar} from "./NavBar";
 import LoginFormDialog from "./LoginFormDialog";
 import Button from "@material-ui/core/Button";
-import {useState} from "react";
-import {ButtonGroup} from "@material-ui/core";
+import {useEffect, useState} from "react";
+import {ButtonGroup, Container, Table} from "@material-ui/core";
 import AddBookFormDialog from "./AddBookFormDialog";
+import {BookTable} from "./BookTable";
+import {fakeBooks} from "../api/fakeData";
+import {BookApi} from "../api/BookApi";
+
+
+const bookApi = new BookApi()
 
 export const App = () => {
+
+    const [books, setBooks] = useState([])
+
+    function updateBooks() {
+        bookApi.getBooks().then(setBooks)
+    }
+
+    useEffect(updateBooks, [])
+
 
     const [openLoginForm, setOpenLoginForm] = useState(false);
     const [openAddBookForm, setOpenAddBookForm] = useState(false);
@@ -39,6 +54,7 @@ export const App = () => {
 
     const handleAddBookSuccess = () => {
         setOpenAddBookForm(false);
+        updateBooks();
     };
 
 
@@ -57,6 +73,10 @@ export const App = () => {
         <AddBookFormDialog open={openAddBookForm}
                            handleClose={handleCloseAddBookForm}
                            handleSuccess={handleAddBookSuccess}/>
+
+        <Container maxWidth="md">
+            <BookTable books={books}/>
+        </Container>
     </div>);
 
 
