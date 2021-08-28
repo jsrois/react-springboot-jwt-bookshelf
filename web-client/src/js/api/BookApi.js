@@ -5,7 +5,7 @@ export class BookApi {
         return fetch("/books").then(r => r.json())
     }
 
-    addBook(title, author) {
+    addBook(title, author, readStatus) {
         const token = new CredentialsManager().getToken()
 
         return fetch("/books", {
@@ -16,7 +16,8 @@ export class BookApi {
             },
             body: JSON.stringify({
                 'title': title,
-                'author': author
+                'author': author,
+                'readStatus': readStatus
             })
         })
 

@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {BookApi} from "../api/BookApi";
 import {Alert} from "@material-ui/lab";
+import {FormControlLabel, FormLabel, Radio, RadioGroup} from "@material-ui/core";
 
 const bookApi = new BookApi()
 
@@ -16,10 +17,11 @@ const AddBookFormDialog = (props) => {
     const [author, setAuthor] = useState("")
 
     const [error, setError] = useState(false)
+    const [readStatus, setReadStatus] = useState('WISHLIST')
 
 
     const handleAddBookClick = () => {
-        bookApi.addBook(title, author)
+        bookApi.addBook(title, author, readStatus)
             .then(response => {
                 if (response.ok) {
                     return response
@@ -31,6 +33,8 @@ const AddBookFormDialog = (props) => {
             .then(props.handleSuccess)
             .catch(() => setError(true))
     }
+
+    const handleStatusSelection = (e, selection) => setReadStatus(selection)
 
     const to = (f) => (e) => f(e.target.value)
 
@@ -56,6 +60,13 @@ const AddBookFormDialog = (props) => {
                     onChange={to(setAuthor)}
                     fullWidth
                 />
+                <FormLabel component="legend">Read Status</FormLabel>
+                <RadioGroup aria-label="read-status" value={readStatus} onChange={handleStatusSelection}>
+                    <FormControlLabel value="WISHLIST" control={<Radio/>} label="Wishlist"/>
+                    <FormControlLabel value="NOT_READ" control={<Radio/>} label="Not read"/>
+                    <FormControlLabel value="READING" control={<Radio/>} label="Reading"/>
+                    <FormControlLabel value="FINISHED" control={<Radio/>} label="Finished"/>
+                </RadioGroup>
                 {error && <Alert severity="error">Something went wrong!</Alert>}
             </DialogContent>
             <DialogActions>
