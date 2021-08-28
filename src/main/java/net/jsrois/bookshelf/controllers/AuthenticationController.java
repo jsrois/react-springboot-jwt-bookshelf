@@ -7,6 +7,7 @@ import net.jsrois.bookshelf.models.User;
 import net.jsrois.bookshelf.repositories.RoleRepository;
 import net.jsrois.bookshelf.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -70,6 +71,10 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        if (someUserAlreadyExist()) {
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
@@ -120,5 +125,9 @@ public class AuthenticationController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    private boolean someUserAlreadyExist() {
+        return !userRepository.findAll().isEmpty();
     }
 }
