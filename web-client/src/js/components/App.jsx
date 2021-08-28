@@ -1,12 +1,11 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import {NavBar} from "./NavBar";
 import LoginFormDialog from "./LoginFormDialog";
 import Button from "@material-ui/core/Button";
-import {useEffect, useState} from "react";
-import {Box, ButtonGroup, Container, Table} from "@material-ui/core";
+import {Box, ButtonGroup} from "@material-ui/core";
 import AddBookFormDialog from "./AddBookFormDialog";
 import {BookTable} from "./BookTable";
-import {fakeBooks} from "../api/fakeData";
 import {BookApi} from "../api/BookApi";
 import {CredentialsManager} from "../session/CredentialsManager";
 import {ReadStatusToggle} from "./ReadStatusToggle";
@@ -74,6 +73,13 @@ export const App = () => {
         return books.filter(book => book.readStatus === bookFilter)
     }
 
+    const countByReadStatus = function (books) {
+        const bookCountMap = books
+            .map(b => b.readStatus)
+            .reduce((m, n) => ({...m, [n]: -~m[n]}), {})
+        return {...bookCountMap, ['all']: books.length};
+    };
+
 
     return (<div>
         <NavBar titleText="Bookshelf">
@@ -95,7 +101,7 @@ export const App = () => {
             <Grid container spacing="3">
                 <Grid item xs="2">
                     <Box display="flex" justifyContent="flex-end">
-                        <ReadStatusToggle setBookFilter={setBookFilter}/>
+                        <ReadStatusToggle setBookFilter={setBookFilter} bookCount={countByReadStatus(books)}/>
                     </Box>
                 </Grid>
                 <Grid item xs="10">

@@ -12,7 +12,7 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Typography from "@material-ui/core/Typography";
 import {useState} from "react";
 
-export const ReadStatusToggle = ({setBookFilter}) => {
+export const ReadStatusToggle = ({setBookFilter, bookCount}) => {
     const [selection, setSelection] = useState("all");
 
     const handleChange = (event, newSelection) => {
@@ -29,23 +29,23 @@ export const ReadStatusToggle = ({setBookFilter}) => {
         <ToggleButtonGroup orientation="vertical" size="medium" value={selection} exclusive onChange={handleChange}>
             <ToggleButton value="all">
                 <LibraryBooksIcon/>
-                <Typography>All books</Typography>
+                <Typography>{`All books (${bookCount['all']})`}</Typography>
             </ToggleButton>
             <ToggleButton value="WISHLIST">
                 <BookmarkBorderIcon/>
-                <Typography>Wishlist</Typography>
+                <Typography>{`Wishlist (${bookCount['WISHLIST'] || 0})`}</Typography>
             </ToggleButton>
             <ToggleButton value="NOT_READ">
                 <CheckBoxOutlineBlankIcon/>
-                <Typography>Not read</Typography>
+                <Typography>{`Not read (${bookCount['NOT_READ'] || 0})`}</Typography>
             </ToggleButton>
             <ToggleButton value="READING">
                 <TimelapseIcon/>
-                <Typography>Reading</Typography>
+                <Typography>{`Reading (${bookCount['READING'] || 0})`}</Typography>
             </ToggleButton>
             <ToggleButton value="FINISHED">
                 <CheckCircleIcon/>
-                <Typography>Finished</Typography>
+                <Typography>{`Finished (${bookCount['FINISHED'] || 0})`}</Typography>
             </ToggleButton>
         </ToggleButtonGroup>
     );
