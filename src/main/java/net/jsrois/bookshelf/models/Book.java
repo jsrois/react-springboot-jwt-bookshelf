@@ -13,14 +13,17 @@ public class Book {
 
     private String title;
     private String author;
+    private ReadStatus readStatus;
 
     public Book() {
+
     }
 
-    public Book(Long id, String title, String author) {
+    public Book(Long id, String title, String author, ReadStatus readStatus) {
         this.id = id;
         this.title = title;
         this.author = author;
+        this.readStatus = readStatus;
     }
 
     public Long getId() {
@@ -33,5 +36,9 @@ public class Book {
 
     public String getAuthor() {
         return author;
+    }
+
+    public ReadStatus getReadStatus() {
+        return readStatus;
     }
 }
