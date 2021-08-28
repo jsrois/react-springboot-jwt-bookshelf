@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Component
-@Profile("local")
 public class RoleRepositoryInitializer {
 
     private RoleRepository roleRepository;
@@ -21,6 +20,9 @@ public class RoleRepositoryInitializer {
 
     @PostConstruct
     public void addAvailableRoles(){
+        if (!roleRepository.findAll().isEmpty()) {
+            return;
+        }
 
         List<Role> roles = List.of(
                 new Role(1, Role.RoleName.ROLE_ADMIN),

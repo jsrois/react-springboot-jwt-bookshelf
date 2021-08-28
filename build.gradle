@@ -62,5 +62,5 @@ task buildFrontend(dependsOn: [
         'compileWebClient',
         'copyFiles'
 ])
-
+processResources.mustRunAfter copyFiles
 build.dependsOn buildFrontend
