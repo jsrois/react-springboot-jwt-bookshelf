@@ -3,12 +3,14 @@ import {NavBar} from "./NavBar";
 import LoginFormDialog from "./LoginFormDialog";
 import Button from "@material-ui/core/Button";
 import {useEffect, useState} from "react";
-import {ButtonGroup, Container, Table} from "@material-ui/core";
+import {Box, ButtonGroup, Container, Table} from "@material-ui/core";
 import AddBookFormDialog from "./AddBookFormDialog";
 import {BookTable} from "./BookTable";
 import {fakeBooks} from "../api/fakeData";
 import {BookApi} from "../api/BookApi";
 import {CredentialsManager} from "../session/CredentialsManager";
+import {ReadStatusToggle} from "./ReadStatusToggle";
+import Grid from "@material-ui/core/Grid";
 
 
 const bookApi = new BookApi()
@@ -21,6 +23,7 @@ function hasToken() {
 export const App = () => {
 
     const [books, setBooks] = useState([])
+    const [bookFilter, setBookFilter] = useState('')
 
     function updateBooks() {
         bookApi.getBooks().then(setBooks)
@@ -63,6 +66,15 @@ export const App = () => {
         updateBooks();
     };
 
+    const getBookSelection = () => {
+        if (bookFilter === '') {
+            return books
+        }
+
+        return books.filter(book => book.readStatus === bookFilter)
+    }
+
+
     return (<div>
         <NavBar titleText="Bookshelf">
             {loggedIn ?
@@ -79,12 +91,22 @@ export const App = () => {
                            handleClose={handleCloseAddBookForm}
                            handleSuccess={handleAddBookSuccess}/>
 
-        <Container maxWidth="md">
-            <BookTable
-                books={books}
-                onDeleteSuccess={updateBooks}
-                showButtons={loggedIn}/>
-        </Container>
+        <Box m={3}>
+            <Grid container spacing="3">
+                <Grid item xs="2">
+                    <Box display="flex" justifyContent="flex-end">
+                        <ReadStatusToggle setBookFilter={setBookFilter}/>
+                    </Box>
+                </Grid>
+                <Grid item xs="10">
+                    <BookTable
+                        books={getBookSelection()}
+                        onDeleteSuccess={updateBooks}
+                        showButtons={loggedIn}/>
+
+                </Grid>
+            </Grid>
+        </Box>
     </div>);
 
 
