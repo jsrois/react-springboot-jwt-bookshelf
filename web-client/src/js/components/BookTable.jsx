@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {IconButton} from "@material-ui/core";
+import {Chip, IconButton} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete"
 import {BookApi} from "../api/BookApi";
 
@@ -19,12 +19,21 @@ const useStyles = makeStyles({
     },
 });
 
-export const BookTable = ({books, onDeleteSuccess, showButtons}) => {
+export const BookTable = ({books, onDeleteSuccess, showButtons, showBookState}) => {
     const classes = useStyles();
 
     const deleteBookById = (id) => () => {
-            bookApi.deleteBook(id)
-                .then(onDeleteSuccess)
+        bookApi.deleteBook(id)
+            .then(onDeleteSuccess)
+    }
+
+    const textForReadStatus = (status) => {
+        return {
+            'WISHLIST': 'wishlist',
+            'NOT_READ': 'not read',
+            'READING': 'reading',
+            'FINISHED': 'finished'
+        }[status]
     }
 
     return (
@@ -34,7 +43,7 @@ export const BookTable = ({books, onDeleteSuccess, showButtons}) => {
                     <TableRow>
                         <TableCell align="left">Title</TableCell>
                         <TableCell align="left">Author</TableCell>
-                        { showButtons && <TableCell/>}
+                        {showButtons && <TableCell/>}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -43,6 +52,10 @@ export const BookTable = ({books, onDeleteSuccess, showButtons}) => {
                             <TableCell align="left">{book.title}</TableCell>
                             <TableCell align="left">{book.author}</TableCell>
                             {showButtons && <TableCell>
+                                {showBookState && <Chip
+                                    variant="outlined"
+                                    size="small"
+                                    label={textForReadStatus(book.readStatus)}/>}
                                 <IconButton aria-label="delete" className={classes.margin}>
                                     <DeleteIcon onClick={deleteBookById(book.id)}/>
                                 </IconButton>

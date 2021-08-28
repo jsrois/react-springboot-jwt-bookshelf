@@ -65,6 +65,10 @@ export const App = () => {
         updateBooks();
     };
 
+    const handleClickGraphs = () => {
+
+    }
+
     const getBookSelection = () => {
         if (bookFilter === '') {
             return books
@@ -108,7 +112,8 @@ export const App = () => {
                     <BookTable
                         books={getBookSelection()}
                         onDeleteSuccess={updateBooks}
-                        showButtons={loggedIn}/>
+                        showButtons={loggedIn}
+                        showBookState={bookFilter === ''}/>
 
                 </Grid>
             </Grid>
