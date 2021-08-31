@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import {NavBar} from "./NavBar";
+import {NavigationBar} from "./NavigationBar";
 import LoginFormDialog from "./LoginFormDialog";
 import Button from "@material-ui/core/Button";
 import {Box, ButtonGroup} from "@material-ui/core";
@@ -47,7 +47,7 @@ export const App = () => {
             ]
         }
 
-        const booksToShow = filters.reduce((acc, f) => acc.filter(f), books )
+        const booksToShow = filters.reduce((acc, f) => acc.filter(f), books)
 
         setFilteredBooks(booksToShow)
     }, [books, readStatusFilter, titleFilter])
@@ -99,19 +99,19 @@ export const App = () => {
         setTitleFilter(keyword)
     }
 
-
     return (<div>
-        <NavBar titleText="Bookshelf" onSearchBarChange={onSearchBarChange}>
-            {loggedIn ?
-                <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-                    <Button color="inherit" onClick={handleClickAddBook}>Add Book</Button>
-                    <Button color="inherit" onClick={handleClickLogout}>Logout</Button>
-                </ButtonGroup> :
-                <Button color="inherit" onClick={handleClickOpenLoginForm}>Login</Button>}
-        </NavBar>
+        <NavigationBar
+            titleText={"📚Bookshelf"}
+            loggedIn={loggedIn}
+            onSearchBarChange={onSearchBarChange}
+            handleClickAddBook={handleClickAddBook}
+            handleClickLogout={handleClickLogout}
+            handleClickOpenLoginForm={handleClickOpenLoginForm}/>
+
         <LoginFormDialog open={openLoginForm}
                          handleClose={handleCloseLoginForm}
                          handleSuccess={handleLoginSuccess}/>
+
         <AddBookFormDialog open={openAddBookForm}
                            handleClose={handleCloseAddBookForm}
                            handleSuccess={handleAddBookSuccess}/>

@@ -4,7 +4,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
-import {InputBase} from "@material-ui/core";
+import {ButtonGroup, InputBase} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export const NavBar = (props) => {
+export const NavigationBar = (props) => {
     const classes = useStyles();
 
 
@@ -69,7 +70,13 @@ export const NavBar = (props) => {
                     <Typography variant="h6" className={classes.title}>
                         {props.titleText}
                     </Typography>
-                    { props.children }
+                    {props.loggedIn ?
+                        <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
+                            <Button color="inherit" onClick={props.handleClickAddBook}>Add Book</Button>
+                            <Button color="inherit" onClick={props.handleClickLogout}>Logout</Button>
+                        </ButtonGroup> :
+                        <Button color="inherit" onClick={props.handleClickOpenLoginForm}>Login</Button>}
+
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
