@@ -117,7 +117,9 @@ export const App = () => {
             <Grid container spacing="3">
                 <Grid item xs="2">
                     <Box display="flex" justifyContent="flex-end">
-                        <ReadStatusToggle setBookFilter={setReadStatusFilter} bookCount={countByReadStatus(books)}/>
+                        <ReadStatusToggle
+                            setBookFilter={setReadStatusFilter}
+                            bookCount={countByReadStatus(filteredBooks)}/>
                     </Box>
                 </Grid>
                 <Grid item xs="10">
