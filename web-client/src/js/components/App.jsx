@@ -22,13 +22,32 @@ function hasToken() {
 export const App = () => {
 
     const [books, setBooks] = useState([])
-    const [bookFilter, setBookFilter] = useState('')
+    const [filteredBooks, setFilteredBooks] = useState([])
+    const [readStatusFilter, setReadStatusFilter] = useState('')
+    const [titleFilter, setTitleFilter] = useState('')
 
-    function updateBooks() {
+    function reloadBooks() {
         bookApi.getBooks().then(setBooks)
     }
 
-    useEffect(updateBooks, [])
+    useEffect(reloadBooks, [])
+
+    useEffect(() => {
+
+        let filters = []
+
+        if (readStatusFilter !== '') {
+            filters = [...filters, (book) => book.readStatus === readStatusFilter]
+        }
+
+        if (titleFilter !== '') {
+            filters = [...filters, book => book.title.includes(titleFilter)]
+        }
+
+        const booksToShow = filters.reduce((acc, f) => acc.filter(f), books )
+
+        setFilteredBooks(booksToShow)
+    }, [books, readStatusFilter, titleFilter])
 
     const [openLoginForm, setOpenLoginForm] = useState(false);
     const [openAddBookForm, setOpenAddBookForm] = useState(false);
@@ -62,20 +81,8 @@ export const App = () => {
 
     const handleAddBookSuccess = () => {
         setOpenAddBookForm(false);
-        updateBooks();
+        reloadBooks();
     };
-
-    const handleClickGraphs = () => {
-
-    }
-
-    const getBookSelection = () => {
-        if (bookFilter === '') {
-            return books
-        }
-
-        return books.filter(book => book.readStatus === bookFilter)
-    }
 
     const countByReadStatus = function (books) {
         const bookCountMap = books
@@ -84,9 +91,14 @@ export const App = () => {
         return {...bookCountMap, ['all']: books.length};
     };
 
+    const onSearchBarChange = (event) => {
+        const keyword = event.target.value;
+        setTitleFilter(keyword)
+    }
+
 
     return (<div>
-        <NavBar titleText="Bookshelf">
+        <NavBar titleText="Bookshelf" onSearchBarChange={onSearchBarChange}>
             {loggedIn ?
                 <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                     <Button color="inherit" onClick={handleClickAddBook}>Add Book</Button>
@@ -105,15 +117,15 @@ export const App = () => {
             <Grid container spacing="3">
                 <Grid item xs="2">
                     <Box display="flex" justifyContent="flex-end">
-                        <ReadStatusToggle setBookFilter={setBookFilter} bookCount={countByReadStatus(books)}/>
+                        <ReadStatusToggle setBookFilter={setReadStatusFilter} bookCount={countByReadStatus(books)}/>
                     </Box>
                 </Grid>
                 <Grid item xs="10">
                     <BookTable
-                        books={getBookSelection()}
-                        onDeleteSuccess={updateBooks}
+                        books={filteredBooks}
+                        onDeleteSuccess={reloadBooks}
                         showButtons={loggedIn}
-                        showBookState={bookFilter === ''}/>
+                        showBookState={readStatusFilter === ''}/>
 
                 </Grid>
             </Grid>
