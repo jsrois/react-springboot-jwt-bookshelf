@@ -32,6 +32,11 @@ export const App = () => {
 
     useEffect(reloadBooks, [])
 
+    const containsSearchKey = book =>
+            book.title.toLowerCase().includes(titleFilter.toLowerCase()) ||
+            book.author.toLowerCase().includes(titleFilter.toLowerCase());
+
+
     useEffect(() => {
 
         let filters = []
@@ -41,10 +46,7 @@ export const App = () => {
         }
 
         if (titleFilter !== '') {
-            filters = [...filters, book =>
-                book.title.toLowerCase().includes(titleFilter.toLowerCase()) ||
-                book.author.toLowerCase().includes(titleFilter.toLowerCase())
-            ]
+            filters = [...filters, containsSearchKey]
         }
 
         const booksToShow = filters.reduce((acc, f) => acc.filter(f), books)
@@ -122,7 +124,7 @@ export const App = () => {
                     <Box display="flex" justifyContent="flex-end">
                         <ReadStatusToggle
                             setBookFilter={setReadStatusFilter}
-                            bookCount={countByReadStatus(filteredBooks)}/>
+                            bookCount={countByReadStatus(books.filter(containsSearchKey))}/>
                     </Box>
                 </Grid>
                 <Grid item xs="10">
