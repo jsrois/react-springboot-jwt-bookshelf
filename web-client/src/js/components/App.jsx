@@ -41,7 +41,10 @@ export const App = () => {
         }
 
         if (titleFilter !== '') {
-            filters = [...filters, book => book.title.includes(titleFilter)]
+            filters = [...filters, book =>
+                book.title.toLowerCase().includes(titleFilter.toLowerCase()) ||
+                book.author.toLowerCase().includes(titleFilter.toLowerCase())
+            ]
         }
 
         const booksToShow = filters.reduce((acc, f) => acc.filter(f), books )
