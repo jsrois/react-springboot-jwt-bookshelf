@@ -7,12 +7,19 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import {useState} from "react";
+import {CommentApi} from "../../api/CommentApi";
 
 
 export const AddCommentDialog = (props) => {
 
     const [error, setError] = useState(false)
     const [comment, setComment] = useState("")
+
+    const onClickSave = async () => {
+        const commentApi = new CommentApi()
+        commentApi.createComment(props.book.id, comment)
+            .then(props.handleClose)
+    }
 
     return (
         <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
@@ -34,7 +41,7 @@ export const AddCommentDialog = (props) => {
                 <Button onClick={props.handleClose} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={props.handleClose} color="primary">
+                <Button onClick={onClickSave} color="primary">
                     Save
                 </Button>
             </DialogActions>

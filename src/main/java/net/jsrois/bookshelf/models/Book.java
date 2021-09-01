@@ -1,7 +1,9 @@
 package net.jsrois.bookshelf.models;
 
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,7 +20,6 @@ public class Book {
     private String author;
     private ReadStatus readStatus;
 
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
     private List<Comment> comments;
 
@@ -51,5 +52,10 @@ public class Book {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    @JsonGetter("comments")
+    public int numberOfComments() {
+        return comments.size();
     }
 }

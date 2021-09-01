@@ -30,11 +30,11 @@ export const BookRow = (props) => {
             <TableCell align="left">{props.book.author}</TableCell>
             {props.showButtons && <TableCell>
                 <Box display="flex" justifyContent="space-around" alignItems="center">
-                    <Badge color="secondary" badgeContent={0} onClick={onCommentIconClick}>
-                        <IconButton>
+                    <IconButton>
+                        <Badge color="secondary" badgeContent={props.book.comments} onClick={onCommentIconClick}>
                             <CommentIcon/>
-                        </IconButton>
-                    </Badge>
+                        </Badge>
+                    </IconButton>
                     {props.showBookState && <Chip
                         variant="outlined"
                         size="small"

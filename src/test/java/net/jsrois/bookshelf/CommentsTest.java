@@ -57,5 +57,4 @@ public class CommentsTest {
                 .andExpect(jsonPath("$[0].comment", equalTo(commentText)));
 
     }
-
 }
