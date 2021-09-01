@@ -1,7 +1,10 @@
 package net.jsrois.bookshelf.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -14,6 +17,10 @@ public class Book {
     private String title;
     private String author;
     private ReadStatus readStatus;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
+    private List<Comment> comments;
 
     public Book() {
 
@@ -40,5 +47,9 @@ public class Book {
 
     public ReadStatus getReadStatus() {
         return readStatus;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
     }
 }
