@@ -25,13 +25,14 @@ export const BookRow = (props) => {
                 book={props.book}
                 open={openNewCommentDialog}
                 handleClose={onCloseAddCommentDialog}
+                onCommentSubmit={props.onCommentSubmit}
             />
             <TableCell align="left">{props.book.title}</TableCell>
             <TableCell align="left">{props.book.author}</TableCell>
             {props.showButtons && <TableCell>
                 <Box display="flex" justifyContent="space-around" alignItems="center">
-                    <IconButton>
-                        <Badge color="secondary" badgeContent={props.book.comments} onClick={onCommentIconClick}>
+                    <IconButton onClick={onCommentIconClick}>
+                        <Badge color="secondary" variant="dot" badgeContent={props.book.comments}>
                             <CommentIcon/>
                         </Badge>
                     </IconButton>

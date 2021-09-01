@@ -6,24 +6,38 @@ import {Alert} from "@material-ui/lab";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {CommentApi} from "../../api/CommentApi";
+import {Card, CardContent} from "@material-ui/core";
 
 
 export const AddCommentDialog = (props) => {
 
     const [error, setError] = useState(false)
-    const [comment, setComment] = useState("")
+    const [comments, setComments] = useState([])
+    const [newComment, setNewComment] = useState("")
+
+    const reloadComments = () => {
+        new CommentApi().getComments(props.book.id)
+            .then(setComments)
+    }
+
+    useEffect(reloadComments, [])
 
     const onClickSave = async () => {
         const commentApi = new CommentApi()
-        commentApi.createComment(props.book.id, comment)
-            .then(props.handleClose)
+        commentApi.createComment(props.book.id, newComment)
+            .then(reloadComments)
     }
 
     return (
         <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Add Comment</DialogTitle>
+            <DialogTitle id="form-dialog-title">Comments</DialogTitle>
+            {comments.map(comment =>
+                <Card>
+                    <CardContent>{comment.comment}</CardContent>
+                </Card>
+            )}
             <DialogContent>
                 <TextField
                     multiline
@@ -32,14 +46,14 @@ export const AddCommentDialog = (props) => {
                     id="comment"
                     label="Comment"
                     type="text"
-                    onChange={(e) => setComment(e.target.value)}
+                    onChange={(e) => setNewComment(e.target.value)}
                     fullWidth
                 />
                 {error && <Alert severity="error">Something went wrong!</Alert>}
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.handleClose} color="primary">
-                    Cancel
+                    Close
                 </Button>
                 <Button onClick={onClickSave} color="primary">
                     Save

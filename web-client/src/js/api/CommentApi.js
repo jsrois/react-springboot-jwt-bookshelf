@@ -12,4 +12,13 @@ export class CommentApi {
             body: JSON.stringify({ comment: comment })
         })
     }
+
+    getComments(bookId) {
+        const token = new CredentialsManager().getToken()
+        return fetch(`/books/${bookId}/comments`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then( response => response.json())
+    }
 }

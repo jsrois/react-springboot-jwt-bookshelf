@@ -56,6 +56,6 @@ public class Book {
 
     @JsonGetter("comments")
     public int numberOfComments() {
-        return comments.size();
+        return comments == null ? 0 : comments.size();
     }
 }
